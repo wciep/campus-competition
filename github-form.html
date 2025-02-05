@@ -152,6 +152,17 @@
                    <option value="3">3 Participants</option>
                </select>
            </div>
+	       <div class="form-group">
+    <label for="category">Competition Category:</label>
+    <select id="category" name="category" required>
+        <option value="">Select Category</option>
+        <option value="Category1">Category 1</option>
+        <option value="Category2">Category 2</option>
+        <option value="Category3">Category 3</option>
+        <option value="Category4">Category 4</option>
+        <option value="Category5">Category 5</option>
+    </select>
+</div>
 
            <div id="participant1">
                <h3>Main Participant</h3>
@@ -362,7 +373,9 @@
                            lastname2: document.getElementById('lastname2').value,
                            name3: document.getElementById('name3').value,
                            lastname3: document.getElementById('lastname3').value,
-                           agreeRegulations: document.getElementById('agreeRegulations').checked
+                           agreeRegulations: document.getElementById('agreeRegulations').checked,
+			   category: document.getElementById('category').value
+
                        };
                        
                        showMessage('Sending to database...');
