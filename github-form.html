@@ -124,6 +124,13 @@
       .checkbox-label a:hover {
           text-decoration: underline;
       }
+      .row {
+          display: flex;
+          gap: 15px;
+      }
+         .row .form-group {
+          flex: 1;
+      }
    </style>
 </head>
 <body>
@@ -140,14 +147,16 @@
 
            <div id="participant1">
                <h3>Main Participant</h3>
-               <div class="form-group">
-                   <label for="name1">First Name:</label>
-                   <input type="text" id="name1" name="name1" required placeholder=" ">
-               </div>
-               <div class="form-group">
-                   <label for="lastname1">Last Name:</label>
-                   <input type="text" id="lastname1" name="lastname1" required placeholder=" ">
-               </div>
+               <div class="row">
+    <div class="form-group">
+        <label for="name1">First Name:</label>
+        <input type="text" id="name1" name="name1" required>
+    </div>
+    <div class="form-group">
+        <label for="lastname1">Last Name:</label>
+        <input type="text" id="lastname1" name="lastname1" required>
+    </div>
+</div>
                <div class="form-group">
                    <label for="email1">Email:</label>
                    <input type="email" id="email1" name="email1" required placeholder=" ">
@@ -168,14 +177,16 @@
 
            <div class="supervisor-info">
                <h3>Supervisor</h3>
-               <div class="form-group">
-                   <label for="supervisorName">First Name:</label>
-                   <input type="text" id="supervisorName" name="supervisorName" required placeholder=" ">
-               </div>
-               <div class="form-group">
-                   <label for="supervisorLastname">Last Name:</label>
-                   <input type="text" id="supervisorLastname" name="supervisorLastname" required placeholder=" ">
-               </div>
+<div class="row">
+    <div class="form-group">
+        <label for="supervisorName">First Name:</label>
+        <input type="text" id="supervisorName" name="supervisorName" required>
+    </div>
+    <div class="form-group">
+        <label for="supervisorLastname">Last Name:</label>
+        <input type="text" id="supervisorLastname" name="supervisorLastname" required>
+    </div>
+</div>
                <div class="form-group">
                    <label for="supervisorEmail">Email:</label>
                    <input type="email" id="supervisorEmail" name="supervisorEmail" required placeholder=" ">
@@ -184,26 +195,30 @@
 
            <div id="participant2" style="display: none;">
                <h3>Second Participant</h3>
-               <div class="form-group">
-                   <label for="name2">First Name:</label>
-                   <input type="text" id="name2" name="name2">
-               </div>
-               <div class="form-group">
-                   <label for="lastname2">Last Name:</label>
-                   <input type="text" id="lastname2" name="lastname2">
-               </div>
+<div class="row">
+    <div class="form-group">
+        <label for="name2">First Name:</label>
+        <input type="text" id="name2" name="name2">
+    </div>
+    <div class="form-group">
+        <label for="lastname2">Last Name:</label>
+        <input type="text" id="lastname2" name="lastname2">
+    </div>
+</div>
            </div>
 
            <div id="participant3" style="display: none;">
                <h3>Third Participant</h3>
-               <div class="form-group">
-                   <label for="name3">First Name:</label>
-                   <input type="text" id="name3" name="name3">
-               </div>
-               <div class="form-group">
-                   <label for="lastname3">Last Name:</label>
-                   <input type="text" id="lastname3" name="lastname3">
-               </div>
+<div class="row">
+    <div class="form-group">
+        <label for="name3">First Name:</label>
+        <input type="text" id="name3" name="name3">
+    </div>
+    <div class="form-group">
+        <label for="lastname3">Last Name:</label>
+        <input type="text" id="lastname3" name="lastname3">
+    </div>
+</div>
            </div>
 
            <div class="form-group">
