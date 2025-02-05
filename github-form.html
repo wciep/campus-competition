@@ -106,6 +106,16 @@
            margin-top: 20px;
            color: #333;
        }
+.form-group input:invalid:not(:placeholder-shown),
+.form-group select:invalid:not(:placeholder-shown) {
+   border: 1px solid #dc3545;
+}
+
+/* Add visual feedback on focus */
+.form-group input:invalid:focus:not(:placeholder-shown),
+.form-group select:invalid:focus:not(:placeholder-shown) {
+   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
    </style>
 </head>
 <body>
@@ -113,7 +123,7 @@
        <form id="uploadForm">
            <div class="form-group">
                <label for="participantsCount">Number of Participants:</label>
-               <select id="participantsCount" name="participantsCount" required>
+               <select id="participantsCount" name="participantsCount" required placeholder=" ">
                    <option value="1">1 Participant</option>
                    <option value="2">2 Participants</option>
                    <option value="3">3 Participants</option>
@@ -124,27 +134,27 @@
                <h3>Main Participant</h3>
                <div class="form-group">
                    <label for="name1">First Name:</label>
-                   <input type="text" id="name1" name="name1" required>
+                   <input type="text" id="name1" name="name1" required placeholder=" ">
                </div>
                <div class="form-group">
                    <label for="lastname1">Last Name:</label>
-                   <input type="text" id="lastname1" name="lastname1" required>
+                   <input type="text" id="lastname1" name="lastname1" required placeholder=" ">
                </div>
                <div class="form-group">
                    <label for="email1">Email:</label>
-                   <input type="email" id="email1" name="email1" required>
+                   <input type="email" id="email1" name="email1" required placeholder=" ">
                </div>
                <div class="form-group">
                    <label for="address1">Address:</label>
-                   <input type="text" id="address1" name="address1" required>
+                   <input type="text" id="address1" name="address1" required placeholder=" ">
                </div>
                <div class="form-group">
                    <label for="universityName1">University Name:</label>
-                   <input type="text" id="universityName1" name="universityName1" required>
+                   <input type="text" id="universityName1" name="universityName1" required placeholder=" ">
                </div>
                <div class="form-group">
                    <label for="faculty1">Faculty:</label>
-                   <input type="text" id="faculty1" name="faculty1" required>
+                   <input type="text" id="faculty1" name="faculty1" required placeholder=" ">
                </div>
            </div>
 
@@ -152,15 +162,15 @@
                <h3>Supervisor</h3>
                <div class="form-group">
                    <label for="supervisorName">First Name:</label>
-                   <input type="text" id="supervisorName" name="supervisorName" required>
+                   <input type="text" id="supervisorName" name="supervisorName" required placeholder=" ">
                </div>
                <div class="form-group">
                    <label for="supervisorLastname">Last Name:</label>
-                   <input type="text" id="supervisorLastname" name="supervisorLastname" required>
+                   <input type="text" id="supervisorLastname" name="supervisorLastname" required placeholder=" ">
                </div>
                <div class="form-group">
                    <label for="supervisorEmail">Email:</label>
-                   <input type="email" id="supervisorEmail" name="supervisorEmail" required>
+                   <input type="email" id="supervisorEmail" name="supervisorEmail" required placeholder=" ">
                </div>
            </div>
 
@@ -197,9 +207,9 @@
            <div class="form-group">
                <label for="fileInput">Work File:</label>
                <input type="file" id="fileInput" name="file" required 
-                      accept=".pdf,.doc,.docx,.zip">
+                      accept=".zip">
                <div style="font-size: 12px; color: #666; margin-top: 5px;">
-                   Accepted formats: PDF, DOC, DOCX, ZIP (max 100MB)
+                   Accepted formats: ZIP (max 50MB)
                </div>
            </div>
 
@@ -262,8 +272,8 @@
                return;
            }
 
-           if (file.size > 100 * 1024 * 1024) {
-               showMessage('File is too large (max 100MB)', 'error');
+           if (file.size > 50 * 1024 * 1024) {
+               showMessage('File is too large (max 50MB)', 'error');
                return;
            }
 
