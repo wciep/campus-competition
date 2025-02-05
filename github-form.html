@@ -273,7 +273,7 @@
        <div id="status"></div>
    </div>
 
-   <script>
+  <script>
        const form = document.getElementById('uploadForm');
        const submitBtn = document.getElementById('submitBtn');
        const progress = document.getElementById('progress');
@@ -305,41 +305,42 @@
        }
 
        form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-    
-        const file = document.getElementById('fileInput').files[0];
-        const title = document.getElementById('title').value.trim();
-    
-         if (!file || !title) {
-            showMessage('Fill in all fields', 'error');
-            return;
-          }
+           e.preventDefault();
+           
+           const file = document.getElementById('fileInput').files[0];
+           const title = document.getElementById('title').value.trim();
+           
+           // Validation
+           if (!file || !title) {
+               showMessage('Fill in all fields', 'error');
+               return;
+           }
 
-          if (!/^\d{6}$/.test(title)) {
-              showMessage('Code must be exactly 6 digits', 'error');
-              return;
-          }
+           if (!/^\d{6}$/.test(title)) {
+               showMessage('Code must be exactly 6 digits', 'error');
+               return;
+           }
 
-          if (file.size > 50 * 1024 * 1024) {
-              showMessage('File is too large (max 50MB)', 'error');
-              return;
-          }
+           if (file.size > 50 * 1024 * 1024) {
+               showMessage('File is too large (max 50MB)', 'error');
+               return;
+           }
 
            if (!document.getElementById('agreeRegulations').checked) {
                showMessage('You must agree to the regulations', 'error');
                return;
            }
-		// Add to form validation
-	const fileCode = file.name.split('.')[0];  // Get filename without extension
-	if (title !== fileCode) {
-	   showMessage('6-digit code must match the filename', 'error');
- 	  return;
-	}
 
-	if (!/^\d{6}\.zip$/.test(file.name)) {
- 	  showMessage('Filename must be 6 digits with .zip extension', 'error');
-  	 return;
-	}
+           const fileCode = file.name.split('.')[0];
+           if (title !== fileCode) {
+               showMessage('6-digit code must match the filename', 'error');
+               return;
+           }
+
+           if (!/^\d{6}\.zip$/.test(file.name)) {
+               showMessage('Filename must be 6 digits with .zip extension', 'error');
+               return;
+           }
 
            submitBtn.disabled = true;
            progress.style.display = 'block';
@@ -352,14 +353,22 @@
                reader.onload = async () => {
                    try {
                        updateProgress(30);
-                       const base64 = reader.result.split(',')[1];
+                       
+                       // Properly handle binary data
+                       const base64Data = reader.result.split(',')[1];
+                       const paddedBase64 = base64Data.replace(/=/g, '').padEnd(base64Data.length + (4 - base64Data.length % 4) % 4, '=');
+                       
+                       // Log file sizes for debugging
+                       console.log('Original file size:', file.size);
+                       console.log('Base64 encoded size:', paddedBase64.length);
+                       
                        updateProgress(50);
                        
                        const payload = {
                            title: title,
                            email: document.getElementById('email1').value,
                            fileName: file.name,
-                           fileContent: base64,
+                           fileContent: paddedBase64,
                            name1: document.getElementById('name1').value,
                            lastname1: document.getElementById('lastname1').value,
                            email1: document.getElementById('email1').value,
@@ -374,8 +383,7 @@
                            name3: document.getElementById('name3').value,
                            lastname3: document.getElementById('lastname3').value,
                            agreeRegulations: document.getElementById('agreeRegulations').checked,
-			   compCategory: document.getElementById('compCategory').value
-
+                           compCategory: document.getElementById('compCategory').value
                        };
                        
                        showMessage('Sending to database...');
@@ -384,7 +392,8 @@
                        const response = await fetch('https://prod-105.westeurope.logic.azure.com:443/workflows/984107669de44dc3bbddba0af93eb18b/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=TFwMLojCw61tQssgYnNecwud7uqkAZ-4OVHdloox6z0', {
                            method: 'POST',
                            headers: {
-                               'Content-Type': 'application/json'
+                               'Content-Type': 'application/json',
+                               'Accept': 'application/json'
                            },
                            body: JSON.stringify(payload)
                        });
@@ -392,6 +401,8 @@
                        updateProgress(90);
                        
                        if (response.ok) {
+                           const responseData = await response.text();
+                           console.log('Upload response:', responseData);
                            updateProgress(100);
                            showMessage('Submission successful! Check your email for confirmation.', 'success');
                            form.reset();
@@ -400,7 +411,7 @@
                                progressBar.style.width = '0%';
                            }, 1000);
                        } else {
-                           throw new Error(`Server error: ${response.status}`);
+                           throw new Error(`Server error: ${response.status} - ${await response.text()}`);
                        }
                    } catch (error) {
                        showMessage(`Error: ${error.message}`, 'error');
