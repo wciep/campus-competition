@@ -233,7 +233,7 @@
                <input type="file" id="fileInput" name="file" required 
                       accept=".zip">
                <div style="font-size: 12px; color: #666; margin-top: 5px;">
-                   Accepted formats: ZIP (max 50MB)
+                    File name must be 6 digits (same as code) with .zip extension (max 50MB)
                </div>
            </div>
 
@@ -301,8 +301,8 @@
               return;
           }
 
-          if (file.size > 54 * 1024 * 1024) {
-              showMessage('File is too large (max 54MB)', 'error');
+          if (file.size > 50 * 1024 * 1024) {
+              showMessage('File is too large (max 50MB)', 'error');
               return;
           }
 
@@ -310,6 +310,17 @@
                showMessage('You must agree to the regulations', 'error');
                return;
            }
+		// Add to form validation
+	const fileCode = file.name.split('.')[0];  // Get filename without extension
+	if (title !== fileCode) {
+	   showMessage('6-digit code must match the filename', 'error');
+ 	  return;
+	}
+
+	if (!/^\d{6}\.zip$/.test(file.name)) {
+ 	  showMessage('Filename must be 6 digits with .zip extension', 'error');
+  	 return;
+	}
 
            submitBtn.disabled = true;
            progress.style.display = 'block';
