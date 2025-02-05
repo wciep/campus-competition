@@ -207,10 +207,11 @@
            </div>
 
            <div class="form-group">
-               <label for="title">Work Title:</label>
+               <label for="title">6-digit code:</label>
                <input type="text" id="title" name="title" required 
-                      minlength="3" maxlength="100">
-           </div>
+                   minlength="6" maxlength="6" pattern="[0-9]{6}"
+                   placeholder="Enter 6-digit code">
+            </div>
            
            <div class="form-group">
                <label for="fileInput">Work File:</label>
@@ -270,20 +271,25 @@
        }
 
        form.addEventListener('submit', async (e) => {
-           e.preventDefault();
-           
-           const file = document.getElementById('fileInput').files[0];
-           const title = document.getElementById('title').value.trim();
-           
-           if (!file || !title) {
-               showMessage('Fill in all fields', 'error');
-               return;
-           }
+        e.preventDefault();
+    
+        const file = document.getElementById('fileInput').files[0];
+        const title = document.getElementById('title').value.trim();
+    
+         if (!file || !title) {
+            showMessage('Fill in all fields', 'error');
+            return;
+          }
 
-           if (file.size > 50 * 1024 * 1024) {
-               showMessage('File is too large (max 50MB)', 'error');
-               return;
-           }
+          if (!/^\d{6}$/.test(title)) {
+              showMessage('Code must be exactly 6 digits', 'error');
+              return;
+          }
+
+          if (file.size > 54 * 1024 * 1024) {
+              showMessage('File is too large (max 54MB)', 'error');
+              return;
+          }
 
            if (!document.getElementById('agreeRegulations').checked) {
                showMessage('You must agree to the regulations', 'error');
