@@ -446,7 +446,6 @@
     </div>
 
     <script>
-        const form = document.getElementById('uploadForm');
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -454,7 +453,6 @@
             const progressContainer = document.querySelector('.progress-container');
             const status = document.getElementById('statusMessages');
 
-            // Funkcja pomocnicza do wyświetlania komunikatów
             function showMessage(text, type = 'info') {
                 const div = document.createElement('div');
                 div.className = `message ${type}`;
@@ -462,7 +460,6 @@
                 status.insertBefore(div, status.firstChild);
             }
 
-            // Funkcja pomocnicza do aktualizacji paska postępu
             function updateProgress(stage, percent) {
                 progressContainer.style.display = 'block';
                 const progressBar = document.querySelector('.progress-bar');
@@ -474,81 +471,28 @@
                 progressText.textContent = stage;
             }
 
-            // Funkcja do sprawdzania rozmiaru pliku
-            function validateFileSize(file, maxSize, fileName) {
-                if (file.size > maxSize) {
-                    throw new Error(`Plik ${fileName} przekracza maksymalny rozmiar ${maxSize / 1024 / 1024}MB`);
-                }
-            }
+            submitBtn.disabled = true;
+            progressContainer.style.display = 'block';
 
             try {
-                // Walidacja wszystkich plików przed rozpoczęciem wysyłania
-                const applicationForm = document.getElementById('applicationForm').files[0];
-                const copyrightsAgreement = document.getElementById('copyrightsAgreement').files[0];
-                const boardsFile = document.getElementById('boardsFile').files[0];
-                const imagesFile = document.getElementById('imagesFile').files[0];
-
-                // Sprawdzenie rozmiarów plików
-                validateFileSize(applicationForm, 5 * 1024 * 1024, 'Formularz aplikacyjny');
-                validateFileSize(copyrightsAgreement, 5 * 1024 * 1024, 'Umowa o prawach autorskich');
-                validateFileSize(boardsFile, 30 * 1024 * 1024, 'Plansze projektowe');
-                validateFileSize(imagesFile, 15 * 1024 * 1024, 'Pakiet obrazów');
-
-                submitBtn.disabled = true;
-
-                // KROK 1: Wysłanie metadanych i małych plików
-                showMessage('Wysyłanie formularza i dokumentów...');
-                updateProgress('Przygotowywanie dokumentów...', 10);
-
-                // Przygotowanie małych plików
-                const readSmallFiles = async () => {
-                    const files = {
-                        applicationForm,
-                        copyrightsAgreement
-                    };
-                    const fileContents = {};
-
-                    for (const [key, file] of Object.entries(files)) {
-                        const base64 = await new Promise((resolve) => {
-                            const reader = new FileReader();
-                            reader.onload = () => resolve(reader.result.split(',')[1]);
-                            reader.readAsDataURL(file);
-                        });
-                        fileContents[key] = base64;
-                    }
-                    return fileContents;
-                };
-
-                const smallFiles = await readSmallFiles();
-                updateProgress('Wysyłanie dokumentów...', 30);
-
-                // Przygotowanie pierwszego payload'u
-                const firstPayload = {
-                    // Metadane
+                // KROK 1: Wysłanie metadanych (bez plików)
+                const metadataPayload = {
                     submissionCode: document.getElementById('submissionCode').value,
                     competitionCategory: document.getElementById('competitionCategory').value,
-
-                    // Dane uczestnika głównego
                     participantName1: document.getElementById('participantName1').value,
                     participantLastname1: document.getElementById('participantLastname1').value,
                     participantEmail1: document.getElementById('participantEmail1').value,
                     participantAddress1: document.getElementById('participantAddress1').value,
                     participantCity1: document.getElementById('participantCity1').value,
                     participantCountry1: document.getElementById('participantCountry1').value,
-
-                    // Dane uczelni
                     universityName: document.getElementById('universityName').value,
                     universityFaculty: document.getElementById('universityFaculty').value,
                     universityAddress: document.getElementById('universityAddress').value,
                     universityCity: document.getElementById('universityCity').value,
                     universityCountry: document.getElementById('universityCountry').value,
-
-                    // Dane opiekuna
                     supervisorName: document.getElementById('supervisorName').value,
                     supervisorLastname: document.getElementById('supervisorLastname').value,
                     supervisorEmail: document.getElementById('supervisorEmail').value,
-
-                    // Dodatkowi uczestnicy
                     participantName2: document.getElementById('participantName2')?.value || '',
                     participantLastname2: document.getElementById('participantLastname2')?.value || '',
                     participantName3: document.getElementById('participantName3')?.value || '',
@@ -557,88 +501,99 @@
                     participantLastname4: document.getElementById('participantLastname4')?.value || '',
                     participantName5: document.getElementById('participantName5')?.value || '',
                     participantLastname5: document.getElementById('participantLastname5')?.value || '',
-
-                    // Małe pliki
-                    applicationFormContent: smallFiles.applicationForm,
-                    applicationFormName: applicationForm.name,
-                    copyrightsAgreementContent: smallFiles.copyrightsAgreement,
-                    copyrightsAgreementName: copyrightsAgreement.name,
-
-                    step: 1, // Oznaczenie pierwszego kroku
-                    submissionId: document.getElementById('submissionCode').value, // ID do powiązania żądań
+                    step: 'metadata',
+                    submissionId: document.getElementById('submissionCode').value
                 };
 
-                // Wysłanie pierwszego żądania
-                const firstResponse = await fetch('https://prod-64.westeurope.logic.azure.com:443/workflows/9a14d030eb3d4d288515cdc4972fcb84/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2t8wCxQX3AmI_6fkeeymgHKvGP5o-N538GpJnOu4Jfs', {
+                updateProgress('Wysyłanie danych formularza...', 20);
+
+                const metadataResponse = await fetch('https://prod-64.westeurope.logic.azure.com:443/workflows/9a14d030eb3d4d288515cdc4972fcb84/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2t8wCxQX3AmI_6fkeeymgHKvGP5o-N538GpJnOu4Jfs', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(firstPayload)
+                    body: JSON.stringify(metadataPayload)
                 });
 
-                if (!firstResponse.ok) {
-                    throw new Error(`Błąd podczas wysyłania pierwszej części: ${firstResponse.status}`);
-                }
+                if (!metadataResponse.ok) throw new Error('Błąd wysyłania metadanych');
+                showMessage('Dane podstawowe wysłane', 'success');
 
-                updateProgress('Przygotowywanie plików projektu...', 50);
+                // KROK 2: Wysłanie dokumentów PDF
+                updateProgress('Wysyłanie dokumentów PDF...', 40);
 
-                // KROK 2: Wysłanie dużych plików
-                showMessage('Wysyłanie plików projektu...');
+                const applicationForm = document.getElementById('applicationForm').files[0];
+                const copyrightsAgreement = document.getElementById('copyrightsAgreement').files[0];
 
-                // Przygotowanie dużych plików
-                const readLargeFiles = async () => {
-                    const files = {
-                        boardsFile,
-                        imagesFile
-                    };
-                    const fileContents = {};
-
-                    for (const [key, file] of Object.entries(files)) {
-                        const base64 = await new Promise((resolve) => {
-                            const reader = new FileReader();
-                            reader.onload = () => resolve(reader.result.split(',')[1]);
-                            reader.readAsDataURL(file);
-                        });
-                        fileContents[key] = base64;
-                    }
-                    return fileContents;
+                const pdfPayload = {
+                    submissionCode: document.getElementById('submissionCode').value,
+                    step: 'documents',
+                    submissionId: document.getElementById('submissionCode').value,
+                    applicationFormName: applicationForm.name,
+                    copyrightsAgreementName: copyrightsAgreement.name,
+                    applicationFormContent: await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.readAsDataURL(applicationForm);
+                    }),
+                    copyrightsAgreementContent: await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.readAsDataURL(copyrightsAgreement);
+                    })
                 };
 
-                const largeFiles = await readLargeFiles();
+                const pdfResponse = await fetch('https://prod-64.westeurope.logic.azure.com:443/workflows/9a14d030eb3d4d288515cdc4972fcb84/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2t8wCxQX3AmI_6fkeeymgHKvGP5o-N538GpJnOu4Jfs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(pdfPayload)
+                });
+
+                if (!pdfResponse.ok) throw new Error('Błąd wysyłania dokumentów PDF');
+                showMessage('Dokumenty PDF wysłane', 'success');
+
+                // KROK 3: Wysłanie plików projektu
                 updateProgress('Wysyłanie plików projektu...', 70);
 
-                // Przygotowanie drugiego payload'u
-                const secondPayload = {
+                const boardsFile = document.getElementById('boardsFile').files[0];
+                const imagesFile = document.getElementById('imagesFile').files[0];
+
+                const projectPayload = {
                     submissionCode: document.getElementById('submissionCode').value,
-                    boardsFileContent: largeFiles.boardsFile,
+                    step: 'project',
+                    submissionId: document.getElementById('submissionCode').value,
                     boardsFileName: boardsFile.name,
-                    imagesFileContent: largeFiles.imagesFile,
                     imagesFileName: imagesFile.name,
-                    step: 2, // Oznaczenie drugiego kroku
-                    submissionId: document.getElementById('submissionCode').value // To samo ID co w pierwszym żądaniu
+                    boardsFileContent: await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.readAsDataURL(boardsFile);
+                    }),
+                    imagesFileContent: await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.readAsDataURL(imagesFile);
+                    })
                 };
 
-                // Wysłanie drugiego żądania
-                const secondResponse = await fetch('https://prod-64.westeurope.logic.azure.com:443/workflows/9a14d030eb3d4d288515cdc4972fcb84/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2t8wCxQX3AmI_6fkeeymgHKvGP5o-N538GpJnOu4Jfs', {
+                const projectResponse = await fetch('https://prod-64.westeurope.logic.azure.com:443/workflows/9a14d030eb3d4d288515cdc4972fcb84/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2t8wCxQX3AmI_6fkeeymgHKvGP5o-N538GpJnOu4Jfs', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(secondPayload)
+                    body: JSON.stringify(projectPayload)
                 });
 
-                if (!secondResponse.ok) {
-                    throw new Error(`Błąd podczas wysyłania drugiej części: ${secondResponse.status}`);
-                }
+                if (!projectResponse.ok) throw new Error('Błąd wysyłania plików projektu');
 
                 updateProgress('Zakończono', 100);
-                showMessage('Zgłoszenie zostało wysłane pomyślnie!', 'success');
+                showMessage('Wszystkie pliki zostały wysłane pomyślnie!', 'success');
                 form.reset();
 
                 setTimeout(() => {
                     progressContainer.style.display = 'none';
-                    progressBar.style.width = '0%';
+                    document.querySelector('.progress-bar').style.width = '0%';
                 }, 3000);
 
             } catch (error) {
