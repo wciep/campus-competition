@@ -450,218 +450,209 @@
 
     <script>
         const form = document.getElementById('uploadForm');
-        const participantsCount = document.getElementById('participantsCount');
+const participantsCount = document.getElementById('participantsCount');
 
-        // Obsługa pokazywania/ukrywania dodatkowych uczestników
-        participantsCount.addEventListener('change', function () {
-            const count = parseInt(this.value);
-            for (let i = 2; i <= 5; i++) {
-                const participantDiv = document.getElementById(`participant${i}`);
-                if (participantDiv) {
-                    participantDiv.style.display = count >= i ? 'block' : 'none';
+// Obsługa pokazywania/ukrywania dodatkowych uczestników
+participantsCount.addEventListener('change', function () {
+    const count = parseInt(this.value);
+    for (let i = 2; i <= 5; i++) {
+        const participantDiv = document.getElementById(`participant${i}`);
+        if (participantDiv) {
+            participantDiv.style.display = count >= i ? 'block' : 'none';
 
-                    // Ustaw required dla pól w zależności od liczby uczestników
-                    const nameInput = document.getElementById(`participantName${i}`);
-                    const lastnameInput = document.getElementById(`participantLastname${i}`);
-                    if (nameInput && lastnameInput) {
-                        nameInput.required = count >= i;
-                        lastnameInput.required = count >= i;
-                    }
-                }
+            // Ustaw required dla pól w zależności od liczby uczestników
+            const nameInput = document.getElementById(`participantName${i}`);
+            const lastnameInput = document.getElementById(`participantLastname${i}`);
+            if (nameInput && lastnameInput) {
+                nameInput.required = count >= i;
+                lastnameInput.required = count >= i;
             }
+        }
+    }
+});
+
+// Pomocnicze funkcje
+function showMessage(text, type = 'info') {
+    const status = document.getElementById('statusMessages');
+    const div = document.createElement('div');
+    div.className = `message ${type}`;
+    div.textContent = text;
+    status.insertBefore(div, status.firstChild);
+}
+
+function updateProgress(stage, percent) {
+    const progressContainer = document.querySelector('.progress-container');
+    progressContainer.style.display = 'block';
+    const progressBar = document.querySelector('.progress-bar');
+    const progressText = document.querySelector('.progress-text');
+    const progressPercentage = document.querySelector('.progress-percentage');
+
+    progressBar.style.width = percent + '%';
+    progressPercentage.textContent = Math.round(percent) + '%';
+    progressText.textContent = stage;
+}
+
+async function fileToBase64(file) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.readAsDataURL(file);
+    });
+}
+
+// Główna funkcja obsługi formularza
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const submitBtn = document.getElementById('submitButton');
+    const progressContainer = document.querySelector('.progress-container');
+    const status = document.getElementById('statusMessages');
+
+    submitBtn.disabled = true;
+    progressContainer.style.display = 'block';
+
+    try {
+        // Sprawdzenie akceptacji regulaminu
+        if (!document.getElementById('regulationsAgreement').checked) {
+            throw new Error('Musisz zaakceptować regulamin konkursu');
+        }
+
+        // Weryfikacja wszystkich plików
+        const applicationForm = document.getElementById('applicationForm').files[0];
+        const copyrightsAgreement = document.getElementById('copyrightsAgreement').files[0];
+        const boardsFile = document.getElementById('boardsFile').files[0];
+        const imagesFile = document.getElementById('imagesFile').files[0];
+
+        if (!applicationForm || !copyrightsAgreement || !boardsFile || !imagesFile) {
+            throw new Error('Wszystkie pliki są wymagane');
+        }
+
+        // Sprawdzenie rozmiaru plików
+        if (applicationForm.size > 5 * 1024 * 1024 || copyrightsAgreement.size > 5 * 1024 * 1024) {
+            throw new Error('Pliki PDF nie mogą przekraczać 5MB');
+        }
+        if (boardsFile.size > 50 * 1024 * 1024) {
+            throw new Error('Plik plansz nie może przekraczać 50MB');
+        }
+        if (imagesFile.size > 20 * 1024 * 1024) {
+            throw new Error('Plik zdjęć nie może przekraczać 20MB');
+        }
+
+        updateProgress('Przygotowywanie danych...', 30);
+
+        // Przygotowanie kompletnego payloadu
+        const completePayload = {
+            // Podstawowe informacje o zgłoszeniu
+            submissionCode: document.getElementById('submissionCode').value,
+            participantsCount: document.getElementById('participantsCount').value,
+            competitionCategory: document.getElementById('competitionCategory').value,
+
+            // Dane uczestnika głównego
+            participantName1: document.getElementById('participantName1').value,
+            participantLastname1: document.getElementById('participantLastname1').value,
+            participantEmail1: document.getElementById('participantEmail1').value,
+            participantAddress1: document.getElementById('participantAddress1').value,
+            participantCity1: document.getElementById('participantCity1').value,
+            participantCountry1: document.getElementById('participantCountry1').value,
+
+            // Dane uczelni
+            universityName: document.getElementById('universityName').value,
+            universityFaculty: document.getElementById('universityFaculty').value,
+            universityAddress: document.getElementById('universityAddress').value,
+            universityCity: document.getElementById('universityCity').value,
+            universityCountry: document.getElementById('universityCountry').value,
+
+            // Dane opiekuna
+            supervisorName: document.getElementById('supervisorName').value,
+            supervisorLastname: document.getElementById('supervisorLastname').value,
+            supervisorEmail: document.getElementById('supervisorEmail').value,
+
+            // Dodatkowi uczestnicy
+            participantName2: document.getElementById('participantName2')?.value || '',
+            participantLastname2: document.getElementById('participantLastname2')?.value || '',
+            participantName3: document.getElementById('participantName3')?.value || '',
+            participantLastname3: document.getElementById('participantLastname3')?.value || '',
+            participantName4: document.getElementById('participantName4')?.value || '',
+            participantLastname4: document.getElementById('participantLastname4')?.value || '',
+            participantName5: document.getElementById('participantName5')?.value || '',
+            participantLastname5: document.getElementById('participantLastname5')?.value || '',
+
+            // Konwersja i przygotowanie plików
+            fileData: {
+                applicationForm: {
+                    name: applicationForm.name,
+                    content: await fileToBase64(applicationForm),
+                    type: 'application'
+                },
+                copyrightsAgreement: {
+                    name: copyrightsAgreement.name,
+                    content: await fileToBase64(copyrightsAgreement),
+                    type: 'copyrights'
+                },
+                boardsFile: {
+                    name: boardsFile.name,
+                    content: await fileToBase64(boardsFile),
+                    type: 'boards'
+                },
+                imagesFile: {
+                    name: imagesFile.name,
+                    content: await fileToBase64(imagesFile),
+                    type: 'images'
+                }
+            },
+
+            // Znacznik czasowy
+            submissionDate: new Date().toISOString(),
+            
+            // Status zgłoszenia
+            status: 'new'
+        };
+
+        updateProgress('Wysyłanie danych...', 50);
+
+        const response = await fetch('https://prod-64.westeurope.logic.azure.com:443/workflows/9a14d030eb3d4d288515cdc4972fcb84/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2t8wCxQX3AmI_6fkeeymgHKvGP5o-N538GpJnOu4Jfs', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(completePayload)
         });
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(`Błąd wysyłania danych: ${errorData.message || response.status}`);
+        }
 
-            const submitBtn = document.getElementById('submitButton');
-            const progressContainer = document.querySelector('.progress-container');
-            const status = document.getElementById('statusMessages');
+        const responseData = await response.json();
 
-            function showMessage(text, type = 'info') {
-                const div = document.createElement('div');
-                div.className = `message ${type}`;
-                div.textContent = text;
-                status.insertBefore(div, status.firstChild);
+        updateProgress('Zakończono', 100);
+        showMessage('Zgłoszenie zostało wysłane pomyślnie! Numer zgłoszenia: ' + completePayload.submissionCode, 'success');
+        
+        // Reset formularza
+        form.reset();
+        
+        // Ukryj dodatkowych uczestników
+        for (let i = 2; i <= 5; i++) {
+            const participantDiv = document.getElementById(`participant${i}`);
+            if (participantDiv) {
+                participantDiv.style.display = 'none';
             }
+        }
 
-            function updateProgress(stage, percent) {
-                progressContainer.style.display = 'block';
-                const progressBar = document.querySelector('.progress-bar');
-                const progressText = document.querySelector('.progress-text');
-                const progressPercentage = document.querySelector('.progress-percentage');
+        // Ukryj progress bar po 3 sekundach
+        setTimeout(() => {
+            progressContainer.style.display = 'none';
+            document.querySelector('.progress-bar').style.width = '0%';
+        }, 3000);
 
-                progressBar.style.width = percent + '%';
-                progressPercentage.textContent = Math.round(percent) + '%';
-                progressText.textContent = stage;
-            }
-
-            submitBtn.disabled = true;
-            progressContainer.style.display = 'block';
-
-            try {
-                // Sprawdzenie akceptacji regulaminu
-                if (!document.getElementById('regulationsAgreement').checked) {
-                    throw new Error('Musisz zaakceptować regulamin konkursu');
-                }
-
-                // KROK 1: Wysłanie metadanych (bez plików)
-                const metadataPayload = {
-                    step: 'metadata',
-                    submissionCode: document.getElementById('submissionCode').value,
-                    submissionId: document.getElementById('submissionCode').value,
-                    participantsCount: document.getElementById('participantsCount').value,
-                    competitionCategory: document.getElementById('competitionCategory').value,
-
-                    // Dane uczestnika głównego
-                    participantName1: document.getElementById('participantName1').value,
-                    participantLastname1: document.getElementById('participantLastname1').value,
-                    participantEmail1: document.getElementById('participantEmail1').value,
-                    participantAddress1: document.getElementById('participantAddress1').value,
-                    participantCity1: document.getElementById('participantCity1').value,
-                    participantCountry1: document.getElementById('participantCountry1').value,
-
-                    // Dane uczelni
-                    universityName: document.getElementById('universityName').value,
-                    universityFaculty: document.getElementById('universityFaculty').value,
-                    universityAddress: document.getElementById('universityAddress').value,
-                    universityCity: document.getElementById('universityCity').value,
-                    universityCountry: document.getElementById('universityCountry').value,
-
-                    // Dane opiekuna
-                    supervisorName: document.getElementById('supervisorName').value,
-                    supervisorLastname: document.getElementById('supervisorLastname').value,
-                    supervisorEmail: document.getElementById('supervisorEmail').value,
-
-                    // Dodatkowi uczestnicy
-                    participantName2: document.getElementById('participantName2')?.value || '',
-                    participantLastname2: document.getElementById('participantLastname2')?.value || '',
-                    participantName3: document.getElementById('participantName3')?.value || '',
-                    participantLastname3: document.getElementById('participantLastname3')?.value || '',
-                    participantName4: document.getElementById('participantName4')?.value || '',
-                    participantLastname4: document.getElementById('participantLastname4')?.value || '',
-                    participantName5: document.getElementById('participantName5')?.value || '',
-                    participantLastname5: document.getElementById('participantLastname5')?.value || '',
-
-                    // Zgoda na regulamin
-                    regulationsAgreement: document.getElementById('regulationsAgreement').checked
-                };
-
-                console.log('Wysyłane metadane:', metadataPayload);
-                updateProgress('Wysyłanie danych formularza...', 20);
-
-                const metadataResponse = await fetch('https://prod-64.westeurope.logic.azure.com:443/workflows/9a14d030eb3d4d288515cdc4972fcb84/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2t8wCxQX3AmI_6fkeeymgHKvGP5o-N538GpJnOu4Jfs', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(metadataPayload)
-                });
-
-                if (!metadataResponse.ok) {
-                    throw new Error(`Błąd wysyłania metadanych: ${metadataResponse.status}`);
-                }
-                showMessage('Dane podstawowe wysłane', 'success');
-
-                // KROK 2: Wysłanie dokumentów PDF
-                updateProgress('Wysyłanie dokumentów PDF...', 40);
-
-                const applicationForm = document.getElementById('applicationForm').files[0];
-                const copyrightsAgreement = document.getElementById('copyrightsAgreement').files[0];
-
-                if (!applicationForm || !copyrightsAgreement) {
-                    throw new Error('Brak wymaganych dokumentów PDF');
-                }
-
-                const pdfPayload = {
-                    step: 'documents',
-                    submissionCode: document.getElementById('submissionCode').value,
-                    submissionId: document.getElementById('submissionCode').value,
-                    applicationFormName: applicationForm.name,
-                    copyrightsAgreementName: copyrightsAgreement.name,
-                    applicationFormContent: await new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result.split(',')[1]);
-                        reader.readAsDataURL(applicationForm);
-                    }),
-                    copyrightsAgreementContent: await new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result.split(',')[1]);
-                        reader.readAsDataURL(copyrightsAgreement);
-                    })
-                };
-
-                console.log('Wysyłanie dokumentów PDF...');
-                const pdfResponse = await fetch('https://prod-64.westeurope.logic.azure.com:443/workflows/9a14d030eb3d4d288515cdc4972fcb84/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2t8wCxQX3AmI_6fkeeymgHKvGP5o-N538GpJnOu4Jfs', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(pdfPayload)
-                });
-
-                if (!pdfResponse.ok) {
-                    throw new Error(`Błąd wysyłania dokumentów PDF: ${pdfResponse.status}`);
-                }
-                showMessage('Dokumenty PDF wysłane', 'success');
-
-                // KROK 3: Wysłanie plików projektu
-                updateProgress('Wysyłanie plików projektu...', 70);
-
-                const boardsFile = document.getElementById('boardsFile').files[0];
-                const imagesFile = document.getElementById('imagesFile').files[0];
-
-                if (!boardsFile || !imagesFile) {
-                    throw new Error('Brak wymaganych plików projektu');
-                }
-
-                const projectPayload = {
-                    step: 'project',
-                    submissionCode: document.getElementById('submissionCode').value,
-                    submissionId: document.getElementById('submissionCode').value,
-                    boardsFileName: boardsFile.name,
-                    imagesFileName: imagesFile.name,
-                    boardsFileContent: await new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result.split(',')[1]);
-                        reader.readAsDataURL(boardsFile);
-                    }),
-                    imagesFileContent: await new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result.split(',')[1]);
-                        reader.readAsDataURL(imagesFile);
-                    })
-                };
-
-                console.log('Wysyłanie plików projektu...');
-                const projectResponse = await fetch('https://prod-64.westeurope.logic.azure.com:443/workflows/9a14d030eb3d4d288515cdc4972fcb84/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2t8wCxQX3AmI_6fkeeymgHKvGP5o-N538GpJnOu4Jfs', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(projectPayload)
-                });
-
-                if (!projectResponse.ok) {
-                    throw new Error(`Błąd wysyłania plików projektu: ${projectResponse.status}`);
-                }
-
-                updateProgress('Zakończono', 100);
-                showMessage('Wszystkie pliki zostały wysłane pomyślnie!', 'success');
-                form.reset();
-
-                setTimeout(() => {
-                    progressContainer.style.display = 'none';
-                    document.querySelector('.progress-bar').style.width = '0%';
-                }, 3000);
-
-            } catch (error) {
-                showMessage(`Błąd: ${error.message}`, 'error');
-                console.error('Błąd:', error);
-            } finally {
-                submitBtn.disabled = false;
-            }
-        });
+    } catch (error) {
+        showMessage(`Błąd: ${error.message}`, 'error');
+        console.error('Błąd:', error);
+        updateProgress('Wystąpił błąd', 0);
+    } finally {
+        submitBtn.disabled = false;
+    }
+});
     </script>
 </body>
 
