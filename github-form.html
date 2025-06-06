@@ -531,7 +531,7 @@
         // Obsługa pokazywania/ukrywania dodatkowych uczestników
         participantsCount.addEventListener('change', function () {
             const count = parseInt(this.value);
-            for (let i = 2; i <= 5; i++) {
+            for (let i = 2; i <= 10; i++) {
                 const participantDiv = document.getElementById(`participant${i}`);
                 if (participantDiv) {
                     participantDiv.style.display = count >= i ? 'block' : 'none';
