@@ -1,66 +1,177 @@
-<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <h1 style="color: rgb(0, 158, 227);">CUT Campus XXI Competition</h2>
-    <h2 style="color: rgb(0, 158, 227);">Submission Confirmation</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUT Campus XXI Competition - Submission Confirmation</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f8f9fa;">
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: white;">
+        <h1 style="color: rgb(0, 158, 227); margin-bottom: 5px; text-align: center;">CUT Campus: Driven by Novel Approaches</h1>
+        <h2 style="color: rgb(0, 158, 227); margin-top: 0; text-align: center;">Submission Confirmation</h2>
+     
+        <table style="width: 100%; margin: 20px 0;">
+            <tr>
+                <td style="text-align: center; padding: 10px;">
+                    <a href="https://pk.edu.pl/" target="_blank">
+                        <img src="https://arch.pk.edu.pl/wp-content/uploads/sites/29/2025/02/80_PK_poziome.png" alt="80 Years CUT Logo" style="max-width: 200px; height: auto;">
+                    </a>
+                </td>
+                <td style="text-align: center; padding: 10px;">
+                    <a href="https://arch.pk.edu.pl/" target="_blank">
+                        <img src="https://arch.pk.edu.pl/wp-content/uploads/sites/29/2025/02/WA_RGB-EN_100.png" alt="Faculty of Architecture Logo" style="max-width: 200px; height: auto;">
+                    </a>
+                </td>
+            </tr>
+        </table>
+        
+        <p style="font-size: 16px; line-height: 1.6;">Dear @{triggerBody()?['participantName1']} @{triggerBody()?['participantLastname1']},</p>
+        
+        <p style="font-size: 16px; line-height: 1.6;">Thank you for your submission to the CUT Campus XXI Competition. Your entry has been successfully received and is now under review.</p>
+        
+        <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid rgb(0, 158, 227);">
+            <h3 style="color: rgb(0, 158, 227); margin-top: 0; margin-bottom: 15px;">📋 Submission Details</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="padding: 8px 0; font-weight: bold; width: 140px;">Submission Code:</td>
+                    <td style="padding: 8px 0;">@{triggerBody()?['submissionCode']}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; font-weight: bold;">Category:</td>
+                    <td style="padding: 8px 0;">@{triggerBody()?['competitionCategory']}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; font-weight: bold;">Participants:</td>
+                    <td style="padding: 8px 0;">@{triggerBody()?['participantsCount']}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; font-weight: bold;">Submission Date:</td>
+                    <td style="padding: 8px 0;">@{formatDateTime(utcNow(), 'MMMM d, yyyy')}</td>
+                </tr>
+            </table>
+        </div>
+     
+        <div style="margin: 25px 0;">
+            <h3 style="color: rgb(0, 158, 227); margin-bottom: 20px;">👥 Team Information</h3>
+            
+            <!-- Main Participant -->
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #333; margin-bottom: 10px; border-bottom: 2px solid #eee; padding-bottom: 5px;">Main Participant:</h4>
+                <div style="background-color: #fafafa; padding: 15px; border-radius: 5px;">
+                    <p style="margin: 5px 0;"><strong>Name:</strong> @{triggerBody()?['participantName1']} @{triggerBody()?['participantLastname1']}</p>
+                    <p style="margin: 5px 0;"><strong>Email:</strong> @{triggerBody()?['participantEmail1']}</p>
+                    <p style="margin: 5px 0;"><strong>Address:</strong> @{triggerBody()?['participantAddress1']}</p>
+                    <p style="margin: 5px 0;"><strong>City:</strong> @{triggerBody()?['participantCity1']}</p>
+                    <p style="margin: 5px 0;"><strong>Country:</strong> @{triggerBody()?['participantCountry1']}</p>
+                </div>
+            </div>
+
+            <!-- Second Participant (conditional) -->
+            @{if(greater(int(triggerBody()?['participantsCount']), 1), 
+                concat('<div style="margin-bottom: 15px;">
+                    <h4 style="color: #333; margin-bottom: 8px;">Second Participant:</h4>
+                    <p style="margin: 3px 0; padding-left: 15px;">• ', triggerBody()?['participantName2'], ' ', triggerBody()?['participantLastname2'], '</p>
+                </div>'), 
+                ''
+            )}
+
+            <!-- Third Participant (conditional) -->
+            @{if(greater(int(triggerBody()?['participantsCount']), 2), 
+                concat('<div style="margin-bottom: 15px;">
+                    <h4 style="color: #333; margin-bottom: 8px;">Third Participant:</h4>
+                    <p style="margin: 3px 0; padding-left: 15px;">• ', triggerBody()?['participantName3'], ' ', triggerBody()?['participantLastname3'], '</p>
+                </div>'), 
+                ''
+            )}
+
+            <!-- Additional participants (4-10) -->
+            @{if(greater(int(triggerBody()?['participantsCount']), 3), 
+                concat('<div style="margin-bottom: 15px;">
+                    <h4 style="color: #333; margin-bottom: 8px;">Additional Participants:</h4>'), 
+                ''
+            )}
+            @{if(greater(int(triggerBody()?['participantsCount']), 3), 
+                concat('<p style="margin: 3px 0; padding-left: 15px;">• ', triggerBody()?['participantName4'], ' ', triggerBody()?['participantLastname4'], '</p>'), 
+                ''
+            )}
+            @{if(greater(int(triggerBody()?['participantsCount']), 4), 
+                concat('<p style="margin: 3px 0; padding-left: 15px;">• ', triggerBody()?['participantName5'], ' ', triggerBody()?['participantLastname5'], '</p>'), 
+                ''
+            )}
+            @{if(greater(int(triggerBody()?['participantsCount']), 5), 
+                concat('<p style="margin: 3px 0; padding-left: 15px;">• ', triggerBody()?['participantName6'], ' ', triggerBody()?['participantLastname6'], '</p>'), 
+                ''
+            )}
+            @{if(greater(int(triggerBody()?['participantsCount']), 6), 
+                concat('<p style="margin: 3px 0; padding-left: 15px;">• ', triggerBody()?['participantName7'], ' ', triggerBody()?['participantLastname7'], '</p>'), 
+                ''
+            )}
+            @{if(greater(int(triggerBody()?['participantsCount']), 7), 
+                concat('<p style="margin: 3px 0; padding-left: 15px;">• ', triggerBody()?['participantName8'], ' ', triggerBody()?['participantLastname8'], '</p>'), 
+                ''
+            )}
+            @{if(greater(int(triggerBody()?['participantsCount']), 8), 
+                concat('<p style="margin: 3px 0; padding-left: 15px;">• ', triggerBody()?['participantName9'], ' ', triggerBody()?['participantLastname9'], '</p>'), 
+                ''
+            )}
+            @{if(greater(int(triggerBody()?['participantsCount']), 9), 
+                concat('<p style="margin: 3px 0; padding-left: 15px;">• ', triggerBody()?['participantName10'], ' ', triggerBody()?['participantLastname10'], '</p></div>'), 
+                ''
+            )}
+
+            <!-- University Information -->
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #333; margin-bottom: 10px; border-bottom: 2px solid #eee; padding-bottom: 5px;">University:</h4>
+                <div style="background-color: #fafafa; padding: 15px; border-radius: 5px;">
+                    <p style="margin: 5px 0;"><strong>Name:</strong> @{triggerBody()?['universityName']}</p>
+                    <p style="margin: 5px 0;"><strong>Faculty:</strong> @{triggerBody()?['universityFaculty']}</p>
+                    <p style="margin: 5px 0;"><strong>Address:</strong> @{triggerBody()?['universityAddress']}</p>
+                    <p style="margin: 5px 0;"><strong>City:</strong> @{triggerBody()?['universityCity']}</p>
+                    <p style="margin: 5px 0;"><strong>Country:</strong> @{triggerBody()?['universityCountry']}</p>
+                </div>
+            </div>
+
+            <!-- Supervisor Information -->
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #333; margin-bottom: 10px; border-bottom: 2px solid #eee; padding-bottom: 5px;">Supervisor:</h4>
+                <div style="background-color: #fafafa; padding: 15px; border-radius: 5px;">
+                    <p style="margin: 5px 0;"><strong>Name:</strong> @{triggerBody()?['supervisorDegree']} @{triggerBody()?['supervisorName']} @{triggerBody()?['supervisorLastname']}</p>
+                    <p style="margin: 5px 0;"><strong>Email:</strong> @{triggerBody()?['supervisorEmail']}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Uploaded Files Summary -->
+        <div style="background-color: #e8f5e8; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #28a745;">
+            <h3 style="color: #28a745; margin-top: 0; margin-bottom: 15px;">✅ Submitted Files</h3>
+            <p style="margin: 5px 0;">✓ Application Form: @{triggerBody()?['applicationFormName']}</p>
+            <p style="margin: 5px 0;">✓ Copyrights Agreement: @{triggerBody()?['copyrightsAgreementName']}</p>
+            <p style="margin: 5px 0;">✓ Board 1: @{triggerBody()?['board1FileName']}</p>
+            <p style="margin: 5px 0;">✓ Board 2: @{triggerBody()?['board2FileName']}</p>
+            <p style="margin: 5px 0;">✓ Project Description: @{triggerBody()?['projectDescFileName']}</p>
+            <p style="margin: 5px 0;">✓ Images Package: @{triggerBody()?['imagesFileName']}</p>
+        </div>
  
-    <table style="width: 100%; margin: 20px 0;">
-        <tr>
-            <td style="text-align: center; padding: 10px;">
-                <a href="https://pk.edu.pl/" target="_blank">
-                    <img src="https://arch.pk.edu.pl/wp-content/uploads/sites/29/2025/02/80_PK_poziome.png" alt="80 Years CUT Logo">
-                </a>
-            </td>
-            <td style="text-align: center; padding: 10px;">
-                <a href="https://arch.pk.edu.pl/" target="_blank">
-                    <img src="https://arch.pk.edu.pl/wp-content/uploads/sites/29/2025/02/WA_RGB-EN_100.png" alt="Faculty of Architecture Logo">
-                </a>
-            </td>
-        </tr>
-    </table>
-    
-    <p>Dear @{triggerBody()?['name1']} @{triggerBody()?['lastname1']},</p>
-    
-    <p>Thank you for your submission to the CUT Campus XXI Competition. Your entry has been successfully received.</p>
-    
-    <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
-        <h3 style="color: rgb(0, 158, 227); margin-top: 0;">Submission Details:</h3>
-        <ul style="list-style: none; padding-left: 0;">
-            <li><strong>Submission Code:</strong> @{triggerBody()?['title']}</li>
-            <li><strong>Category:</strong> @{triggerBody()?['compCategory']}</li>
-            <li><strong>Date:</strong> @{formatDateTime(utcNow(), 'MMMM d, yyyy')}</li>
-        </ul>
+        <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #ffc107;">
+            <h4 style="color: #856404; margin-top: 0;">📌 Important Information</h4>
+            <ul style="color: #856404; margin: 0; padding-left: 20px;">
+                <li>Your submission is now being processed by our evaluation committee</li>
+                <li>Please keep this confirmation email for your records</li>
+                <li>Results will be announced according to the competition schedule</li>
+                <li>Do not submit duplicate entries - they will be automatically rejected</li>
+            </ul>
+        </div>
+        
+        <p style="font-size: 16px; line-height: 1.6; margin-top: 30px;">We appreciate your participation in the CUT Campus XXI Competition and wish you the best of luck!</p>
+        
+        <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; color: #666; font-size: 14px;">
+            If you have any questions or concerns, please contact the competition organizers at:<br>
+            <strong><a href="mailto:campus.competition@pk.edu.pl" style="color: rgb(0, 158, 227); text-decoration: none;">campus.competition@pk.edu.pl</a></strong>
+        </p>
+        
+        <div style="text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee; color: #999; font-size: 12px;">
+            CUT Campus XXI Competition 2025 | Cracow University of Technology | Faculty of Architecture
+        </div>
     </div>
- 
-    <div style="margin: 20px 0;">
-        <h3 style="color: rgb(0, 158, 227);">Team Information:</h3>
-        <h4>Main Participant:</h4>
-        <ul>
-            <li>@{triggerBody()?['name1']} @{triggerBody()?['lastname1']}</li>
-            <li>@{triggerBody()?['email1']}</li>
-            <li>@{triggerBody()?['address1']}</li>
-            <li>@{triggerBody()?['universityName1']}</li>
-            <li>@{triggerBody()?['faculty1']}</li>
-        </ul>
- 
-        <h4>Second Participant:</h4>
-        <ul>
-            <li>@{triggerBody()?['name2']} @{triggerBody()?['lastname2']}</li>
-        </ul>
- 
-        <h4>Third Participant:</h4>
-        <ul>
-            <li>@{triggerBody()?['name3']} @{triggerBody()?['lastname3']}</li>
-        </ul>
- 
-        <h4>Supervisor:</h4>
-        <ul>
-            <li>@{triggerBody()?['supervisorName']} @{triggerBody()?['supervisorLastname']}</li>
-            <li>@{triggerBody()?['supervisorEmail']}</li>
-        </ul>
-    </div>
- 
-    <p>Your submission file has been successfully uploaded and saved in our system.</p>
-    
-    <p style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
-        <small>If you have any questions, please contact the competition organizers at campus.competition@pk.edu.pl</small>
-    </p>
- </div>
+</body>
+</html>
