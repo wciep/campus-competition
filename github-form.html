@@ -219,8 +219,8 @@
                 <label for="competitionCategory">Competition Category:</label>
                 <select id="competitionCategory" name="competitionCategory" required>
                     <option value="">Choose category</option>
-                    <option value="architecture">Architecture</option>
                     <option value="urban-planning">Urban Planning</option>
+                    <option value="architecture">Architecture</option>
                     <option value="landscape-architecture">Landscape Architecture</option>
                     <option value="open">Open</option>
                 </select>
@@ -240,7 +240,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="participantEmail1">Email:</label>
+                    <label for="participantEmail1">Email (Main E-mail):</label>
                     <input type="email" id="participantEmail1" name="participantEmail1" required placeholder=" ">
                 </div>
                 <div class="form-group">
@@ -287,6 +287,10 @@
             <!-- Supervisor -->
             <div class="supervisor-info">
                 <h3>Supervisor</h3>
+                <div class="form-group">
+                    <label for="supervisorDegree">Degree:</label>
+                    <input type="email" id="supervisorDegree" name="supervisorDegree" required placeholder=" ">
+                </div>
                 <div class="row">
                     <div class="form-group">
                         <label for="supervisorName">First Name:</label>
@@ -648,6 +652,7 @@
                     supervisorName: document.getElementById('supervisorName').value,
                     supervisorLastname: document.getElementById('supervisorLastname').value,
                     supervisorEmail: document.getElementById('supervisorEmail').value,
+                    supervisorDegree: document.getElementById('supervisorDegree').value,
                     participantName2: document.getElementById('participantName2')?.value || '',
                     participantLastname2: document.getElementById('participantLastname2')?.value || '',
                     participantName3: document.getElementById('participantName3')?.value || '',
