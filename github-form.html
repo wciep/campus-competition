@@ -241,7 +241,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="participantEmail1">Email (Main Email):</label>
+                    <label for="participantEmail1">Email (Main E-mail):</label>
                     <input type="email" id="participantEmail1" name="participantEmail1" required placeholder=" ">
                 </div>
                 <div class="form-group">
@@ -290,7 +290,7 @@
                 <h3>Supervisor</h3>
                 <div class="form-group">
                     <label for="supervisorDegree">Degree:</label>
-                    <input type="email" id="supervisorDegree" name="supervisorDegree" required placeholder=" ">
+                    <input type="text" id="supervisorDegree" name="supervisorDegree" required placeholder=" ">
                 </div>
                 <div class="row">
                     <div class="form-group">
@@ -425,7 +425,7 @@
                 <h3>Tenth Participant</h3>
                 <div class="row">
                     <div class="form-group">
-                        <label for="participantNam10">First Name:</label>
+                        <label for="participantName10">First Name:</label>
                         <input type="text" id="participantName10" name="participantName10">
                     </div>
                     <div class="form-group">
@@ -727,7 +727,7 @@
 
                 // Dodajemy logowanie
                 console.log('Sending payload:', payload);
-                console.log('Payload size:', JSON.stringify(payload).length, 'bajtów');
+                console.log('Payload size:', JSON.stringify(payload).length, 'bytes');
 
                 updateProgress('Sending data...', 50);
 
@@ -763,7 +763,7 @@
                 form.reset();
 
                 // Ukryj dodatkowych uczestników
-                for (let i = 2; i <= 5; i++) {
+                for (let i = 2; i <= 10; i++) {
                     const participantDiv = document.getElementById(`participant${i}`);
                     if (participantDiv) {
                         participantDiv.style.display = 'none';
