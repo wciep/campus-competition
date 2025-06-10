@@ -447,7 +447,7 @@
                 <h4>Required Documents (PDF)</h4>
                 <div class="form-group">
                     <label for="applicationForm">Application Form:</label>
-                    <input type="file" id="applicationForm" name="applicationForm" required accept=".pdf">
+                    <input type="file" id="applicationForm" name="applicationForm" required accept="application/pdf">
                     <div class="file-requirements">
                         Please upload the completed application form in PDF format
                     </div>
@@ -458,7 +458,8 @@
 
                 <div class="form-group">
                     <label for="copyrightsAgreement">Copyrights Agreement:</label>
-                    <input type="file" id="copyrightsAgreement" name="copyrightsAgreement" required accept=".pdf">
+                    <input type="file" id="copyrightsAgreement" name="copyrightsAgreement" required
+                        accept="application/pdf">
                     <div class="file-requirements">
                         Please upload the signed copyrights agreement in PDF format
                     </div>
@@ -472,7 +473,7 @@
                 <h4>Project Boards</h4>
                 <div class="form-group">
                     <label for="board1File">Board 1:</label>
-                    <input type="file" id="board1File" name="board1File" required accept=".pdf">
+                    <input type="file" id="board1File" name="board1File" required accept="application/pdf">
                     <div class="file-requirements">
                         Upload Board 1 file in PDF format<br>
                         Maximum file size: 25MB
@@ -481,7 +482,7 @@
 
                 <div class="form-group">
                     <label for="board2File">Board 2:</label>
-                    <input type="file" id="board2File" name="board2File" required accept=".pdf">
+                    <input type="file" id="board2File" name="board2File" required accept="application/pdf">
                     <div class="file-requirements">
                         Upload Board 2 file in PDF format<br>
                         Maximum file size: 25MB
@@ -490,7 +491,7 @@
 
                 <div class="form-group">
                     <label for="projectDescFile">Project Description:</label>
-                    <input type="file" id="projectDescFile" name="projectDescFile" required accept=".pdf">
+                    <input type="file" id="projectDescFile" name="projectDescFile" required accept="application/pdf">
                     <div class="file-requirements">
                         Upload project description file in PDF format<br>
                         Maximum file size: 5MB
@@ -502,7 +503,7 @@
                 <h4>Project Images</h4>
                 <div class="form-group">
                     <label for="imagesFile">Images Package:</label>
-                    <input type="file" id="imagesFile" name="imagesFile" required accept=".zip">
+                    <input type="file" id="imagesFile" name="imagesFile" required accept="application/zip">
                     <div class="file-requirements">
                         Upload a ZIP file containing:
                         <ul>
@@ -556,9 +557,9 @@
         const form = document.getElementById('uploadForm');
         const participantsCount = document.getElementById('participantsCount');
 
-// Obsługa pokazywania/ukrywania dodatkowych uczestników
-participantsCount.addEventListener('change', function () {
-    const count = parseInt(this.value);
+        // Obsługa pokazywania/ukrywania dodatkowych uczestników
+        participantsCount.addEventListener('change', function () {
+            const count = parseInt(this.value);
             for (let i = 2; i <= 10; i++) {
                 const participantDiv = document.getElementById(`participant${i}`);
                 if (participantDiv) {
@@ -782,6 +783,51 @@ participantsCount.addEventListener('change', function () {
                 submitBtn.disabled = false;
             }
         });
+        // Walidacja plików natychmiast po wyborze
+        function setupFileValidation() {
+            const fileInputs = [
+                { id: 'applicationForm', type: 'pdf', maxSize: 5 },
+                { id: 'copyrightsAgreement', type: 'pdf', maxSize: 5 },
+                { id: 'board1File', type: 'pdf', maxSize: 25 },
+                { id: 'board2File', type: 'pdf', maxSize: 25 },
+                { id: 'projectDescFile', type: 'pdf', maxSize: 5 },
+                { id: 'imagesFile', type: 'zip', maxSize: 20 }
+            ];
+
+            fileInputs.forEach(config => {
+                const input = document.getElementById(config.id);
+                if (input) {
+                    input.addEventListener('change', function (e) {
+                        const file = e.target.files[0];
+                        if (!file) return;
+
+                        // Sprawdź rozszerzenie
+                        const fileName = file.name.toLowerCase();
+                        const validExtensions = config.type === 'pdf' ? ['.pdf'] : ['.zip'];
+                        const isValidExtension = validExtensions.some(ext => fileName.endsWith(ext));
+
+                        if (!isValidExtension) {
+                            showMessage(`Nieprawidłowy format pliku. Wymagany: ${config.type.toUpperCase()}`, 'error');
+                            e.target.value = '';
+                            return;
+                        }
+
+                        // Sprawdź rozmiar
+                        const maxSizeBytes = config.maxSize * 1024 * 1024;
+                        if (file.size > maxSizeBytes) {
+                            showMessage(`Plik jest za duży. Maksymalny rozmiar: ${config.maxSize}MB`, 'error');
+                            e.target.value = '';
+                            return;
+                        }
+
+                        showMessage(`Plik ${file.name} został poprawnie wybrany`, 'success');
+                    });
+                }
+            });
+        }
+
+        // Wywołaj funkcję po załadowaniu strony
+        setupFileValidation();
     </script>
 </body>
 
