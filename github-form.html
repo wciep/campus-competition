@@ -807,7 +807,7 @@
                         const isValidExtension = validExtensions.some(ext => fileName.endsWith(ext));
 
                         if (!isValidExtension) {
-                            showMessage(`Nieprawidłowy format pliku. Wymagany: ${config.type.toUpperCase()}`, 'error');
+                            showMessage(`Invalid file format. Required: ${config.type.toUpperCase()}`, 'error');
                             e.target.value = '';
                             return;
                         }
@@ -815,12 +815,12 @@
                         // Sprawdź rozmiar
                         const maxSizeBytes = config.maxSize * 1024 * 1024;
                         if (file.size > maxSizeBytes) {
-                            showMessage(`Plik jest za duży. Maksymalny rozmiar: ${config.maxSize}MB`, 'error');
+                            showMessage(`File is too large. Maximum size: ${config.maxSize}MB`, 'error');
                             e.target.value = '';
                             return;
                         }
 
-                        showMessage(`Plik ${file.name} został poprawnie wybrany`, 'success');
+                        showMessage(`File ${file.name} has been successfully selected`, 'success');
                     });
                 }
             });
