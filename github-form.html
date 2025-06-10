@@ -558,6 +558,32 @@
 
         // Obsługa pokazywania/ukrywania dodatkowych uczestników
         participantsCount.addEventListener('change', function () {
+            // Walidacja typów plików
+function validateFileType(input, allowedTypes, errorMessage) {
+    input.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            if (!allowedTypes.includes(fileExtension)) {
+                showMessage(errorMessage, 'error');
+                this.value = ''; // Wyczyść pole
+                return false;
+            }
+        }
+        return true;
+    });
+}
+
+// Zastosuj walidację do pól PDF
+validateFileType(document.getElementById('applicationForm'), ['pdf'], 'Application Form must be a PDF file');
+validateFileType(document.getElementById('copyrightsAgreement'), ['pdf'], 'Copyrights Agreement must be a PDF file');
+validateFileType(document.getElementById('board1File'), ['pdf'], 'Board 1 must be a PDF file');
+validateFileType(document.getElementById('board2File'), ['pdf'], 'Board 2 must be a PDF file');
+validateFileType(document.getElementById('projectDescFile'), ['pdf'], 'Project Description must be a PDF file');
+
+// Zastosuj walidację do pliku ZIP
+validateFileType(document.getElementById('imagesFile'), ['zip'], 'Images file must be a ZIP file');
+            
             const count = parseInt(this.value);
             for (let i = 2; i <= 10; i++) {
                 const participantDiv = document.getElementById(`participant${i}`);
