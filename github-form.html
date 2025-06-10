@@ -583,32 +583,6 @@ function validateFileType(input, allowedTypes, errorMessage) {
             div.textContent = text;
             status.insertBefore(div, status.firstChild);
         }
-        // Walidacja typów plików - sprawdzenie MIME type i rozszerzenia
-function validateFileType(inputId, allowedExtensions, allowedMimeTypes, errorMessage) {
-    const input = document.getElementById(inputId);
-    input.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const fileExtension = file.name.split('.').pop().toLowerCase();
-            const fileMimeType = file.type.toLowerCase();
-            
-            if (!allowedExtensions.includes(fileExtension) || !allowedMimeTypes.includes(fileMimeType)) {
-                showMessage(errorMessage, 'error');
-                this.value = '';
-                return false;
-            }
-        }
-    });
-}
-
-// Zastosuj walidację
-validateFileType('applicationForm', ['pdf'], ['application/pdf'], 'Application Form must be a PDF file');
-validateFileType('copyrightsAgreement', ['pdf'], ['application/pdf'], 'Copyrights Agreement must be a PDF file');
-validateFileType('board1File', ['pdf'], ['application/pdf'], 'Board 1 must be a PDF file');
-validateFileType('board2File', ['pdf'], ['application/pdf'], 'Board 2 must be a PDF file');
-validateFileType('projectDescFile', ['pdf'], ['application/pdf'], 'Project Description must be a PDF file');
-validateFileType('imagesFile', ['zip'], ['application/zip', 'application/x-zip-compressed'], 'Images file must be a ZIP file');
-
         function updateProgress(stage, percent) {
             const progressContainer = document.querySelector('.progress-container');
             progressContainer.style.display = 'block';
