@@ -9,7 +9,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>4 CUT Campus XXII - Competition Submission Form</title>
+    <title>CUT Campus - Competition Submission Form</title>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -175,29 +175,47 @@
             margin-top: 5px;
             margin-bottom: 10px;
         }
+
+        .file-error {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        input[type="file"].error {
+            border-color: #dc3545;
+        }
     </style>
 </head>
 
 <body>
     <div class="form-container">
-        <h1 style="text-align: center; color:  rgb(0, 158, 227); margin-bottom: 5px;">CUT Campus XXII</h1>
+        <h1 style="text-align: center; color:  rgb(0, 158, 227); margin-bottom: 5px;">CUT Campus: Driven by Novel
+            Approaches</h1>
         <h1 style="text-align: center; color: rgb(0, 158, 227); margin-bottom: 30px;">Competition Submission Form</h1>
-        <table style="width: 100%; margin: 20px 0;">
-            <tr>
-                <td style="text-align: center; padding: 10px;">
-                    <a href="https://pk.edu.pl/" target="_blank">
-                        <img src="https://arch.pk.edu.pl/wp-content/uploads/sites/29/2025/02/80_PK_poziome.png"
-                            alt="80 Years CUT Logo">
-                    </a>
-                </td>
-                <td style="text-align: center; padding: 10px;">
-                    <a href="https://arch.pk.edu.pl/" target="_blank">
-                        <img src="https://arch.pk.edu.pl/wp-content/uploads/sites/29/2025/02/WA_RGB-EN_100.png"
-                            alt="Faculty of Architecture Logo">
-                    </a>
-                </td>
-            </tr>
-        </table>
+    <table style="width: 100%; margin: 20px 0;">
+        <tr>
+            <td style="text-align: center; padding: 10px;">
+                <a href="https://pk.edu.pl/" target="_blank">
+                    <img src="https://arch.pk.edu.pl/wp-content/uploads/sites/29/2025/02/80_PK_poziome.png"
+                        alt="80 Years CUT Logo">
+                </a>
+            </td>
+            <td style="text-align: center; padding: 10px;">
+                <a href="https://arch.pk.edu.pl/" target="_blank">
+                    <img src="https://arch.pk.edu.pl/wp-content/uploads/sites/29/2025/02/WA_RGB-EN_100.png"
+                        alt="Faculty of Architecture Logo">
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center; padding: 10px;">
+                <a href="https://arch.pk.edu.pl/campus-competition/#faq" target="_blank" style="text-decoration: none; color: #0066cc; font-weight: bold;">
+                    FAQ - Frequently Asked Questions
+                </a>
+            </td>
+        </tr>
+    </table>
         <form id="uploadForm">
             <!-- Competition Settings -->
             <div class="form-group">
@@ -208,16 +226,20 @@
                     <option value="3">3 Participants</option>
                     <option value="4">4 Participants</option>
                     <option value="5">5 Participants</option>
+                    <option value="6">6 Participants</option>
+                    <option value="7">7 Participants</option>
+                    <option value="8">8 Participants</option>
+                    <option value="9">9 Participants</option>
+                    <option value="10">10 Participants</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="competitionCategory">Competition Category:</label>
                 <select id="competitionCategory" name="competitionCategory" required>
                     <option value="">Choose category</option>
-                    <option value="architecture">Architecture</option>
                     <option value="urban-planning">Urban Planning</option>
+                    <option value="architecture">Architecture</option>
                     <option value="landscape-architecture">Landscape Architecture</option>
-                    <option value="heritage-conservation">Heritage and Conservation</option>
                     <option value="open">Open</option>
                 </select>
             </div>
@@ -236,7 +258,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="participantEmail1">Email:</label>
+                    <label for="participantEmail1">Email (Main E-mail):</label>
                     <input type="email" id="participantEmail1" name="participantEmail1" required placeholder=" ">
                 </div>
                 <div class="form-group">
@@ -283,6 +305,10 @@
             <!-- Supervisor -->
             <div class="supervisor-info">
                 <h3>Supervisor</h3>
+                <div class="form-group">
+                    <label for="supervisorDegree">Academic Title:</label>
+                    <input type="text" id="supervisorDegree" name="supervisorDegree" required placeholder=" ">
+                </div>
                 <div class="row">
                     <div class="form-group">
                         <label for="supervisorName">First Name:</label>
@@ -356,51 +382,141 @@
                 </div>
             </div>
 
+            <div id="participant6" style="display: none;">
+                <h3>Sixth Participant</h3>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="participantName6">First Name:</label>
+                        <input type="text" id="participantName6" name="participantName6">
+                    </div>
+                    <div class="form-group">
+                        <label for="participantLastname6">Last Name:</label>
+                        <input type="text" id="participantLastname6" name="participantLastname6">
+                    </div>
+                </div>
+            </div>
+
+            <div id="participant7" style="display: none;">
+                <h3>Seventh Participant</h3>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="participantName7">First Name:</label>
+                        <input type="text" id="participantName7" name="participantName7">
+                    </div>
+                    <div class="form-group">
+                        <label for="participantLastname7">Last Name:</label>
+                        <input type="text" id="participantLastname7" name="participantLastname7">
+                    </div>
+                </div>
+            </div>
+
+            <div id="participant8" style="display: none;">
+                <h3>Eighth Participant</h3>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="participantName8">First Name:</label>
+                        <input type="text" id="participantName8" name="participantName8">
+                    </div>
+                    <div class="form-group">
+                        <label for="participantLastname8">Last Name:</label>
+                        <input type="text" id="participantLastname8" name="participantLastname8">
+                    </div>
+                </div>
+            </div>
+
+            <div id="participant9" style="display: none;">
+                <h3>Ninth Participant</h3>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="participantName9">First Name:</label>
+                        <input type="text" id="participantName9" name="participantName9">
+                    </div>
+                    <div class="form-group">
+                        <label for="participantLastname9">Last Name:</label>
+                        <input type="text" id="participantLastname9" name="participantLastname9">
+                    </div>
+                </div>
+            </div>
+
+            <div id="participant10" style="display: none;">
+                <h3>Tenth Participant</h3>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="participantName10">First Name:</label>
+                        <input type="text" id="participantName10" name="participantName10">
+                    </div>
+                    <div class="form-group">
+                        <label for="participantLastname10">Last Name:</label>
+                        <input type="text" id="participantLastname10" name="participantLastname10">
+                    </div>
+                </div>
+            </div>
+
             <!-- Submission Section -->
             <h3>Submission Files</h3>
             <div class="form-group">
                 <label for="submissionCode">Participant 6-digit code:</label>
                 <input type="text" id="submissionCode" name="submissionCode" required minlength="6" maxlength="6"
-                    pattern="[0-9]{6}" placeholder="Enter 6-digit code">
+                    pattern="[0-9]{6}" placeholder="Enter a 6-digit code that you create yourself">
             </div>
 
             <div class="file-upload-group">
                 <h4>Required Documents (PDF)</h4>
                 <div class="form-group">
                     <label for="applicationForm">Application Form:</label>
-                    <input type="file" id="applicationForm" name="applicationForm" required accept=".pdf">
+                    <input type="file" id="applicationForm" name="applicationForm" required
+                        accept="application/pdf,.pdf">
                     <div class="file-requirements">
                         Please upload the completed application form in PDF format
                     </div>
-                <div class="file-requirements">
-                    Maximum file size: 5MB
-                </div>
+                    <div class="file-requirements">
+                        Maximum file size: 4MB
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="copyrightsAgreement">Copyrights Agreement:</label>
-                    <input type="file" id="copyrightsAgreement" name="copyrightsAgreement" required accept=".pdf">
+                    <input type="file" id="copyrightsAgreement" name="copyrightsAgreement" required
+                        accept="application/pdf,.pdf">
                     <div class="file-requirements">
                         Please upload the signed copyrights agreement in PDF format
                     </div>
                 </div>
                 <div class="file-requirements">
-                    Maximum file size: 5MB
+                    Maximum file size: 4MB
                 </div>
             </div>
 
             <div class="file-upload-group">
                 <h4>Project Boards</h4>
                 <div class="form-group">
-                    <label for="boardsFile">Project Boards Package:</label>
-                    <input type="file" id="boardsFile" name="boardsFile" required accept=".zip">
+                    <label for="board1File">Board 1:</label>
+                    <input type="file" id="board1File" name="board1File" required accept="application/pdf,.pdf">
                     <div class="file-requirements">
-                        Upload a ZIP file containing:
-                        <ul>
-                            <li>Project boards</li>
-                            <li>Project description</li>
-                        </ul>
-                        Maximum file size: 50MB
+                        Upload Board 1 file in PDF format<br>
+                        File must be anonymized<br>
+                        Maximum file size: 25MB
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="board2File">Board 2:</label>
+                    <input type="file" id="board2File" name="board2File" required accept="application/pdf,.pdf">
+                    <div class="file-requirements">
+                        Upload Board 2 file in PDF format<br>
+                        File must be anonymized<br>
+                        Maximum file size: 25MB
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectDescFile">Project Description:</label>
+                    <input type="file" id="projectDescFile" name="projectDescFile" required
+                        accept="application/pdf,.pdf">
+                    <div class="file-requirements">
+                        Upload project description file in PDF format<br>
+                        File must be anonymized<br>
+                        Maximum file size: 2MB
                     </div>
                 </div>
             </div>
@@ -409,7 +525,7 @@
                 <h4>Project Images</h4>
                 <div class="form-group">
                     <label for="imagesFile">Images Package:</label>
-                    <input type="file" id="imagesFile" name="imagesFile" required accept=".zip">
+                    <input type="file" id="imagesFile" name="imagesFile" required accept="application/zip,.zip">
                     <div class="file-requirements">
                         Upload a ZIP file containing:
                         <ul>
@@ -417,7 +533,7 @@
                             <li>4 project images</li>
                             <li>Brief description</li>
                         </ul>
-                        Maximum file size: 20MB
+                        Maximum file size: 10MB
                     </div>
                 </div>
             </div>
@@ -425,7 +541,9 @@
             <div class="form-group">
                 <label class="checkbox-label">
                     <input type="checkbox" id="regulationsAgreement" name="regulationsAgreement" required>
-                    <span>I have read the <a href="https://arch.pk.edu.pl/campus-competition" target="_blank">competition regulations</a>
+                    <span>I have read and accept the <a
+                            href="https://mckpk-my.sharepoint.com/:b:/g/personal/wojciech_cieplucha_admin_pk_edu_pl/EXcbvNjaw0pGsCTpA8E-sYkBt9Hy7GYG8VCjUAs2zzFVSg?e=Lt4gX7"
+                            target="_blank">competition regulations</a>
                         and confirm that I have included all required files</span>
                 </label>
             </div>
@@ -446,6 +564,16 @@
             </div>
 
             <div id="statusMessages"></div>
+
+            <!-- Contact Footer -->
+            <div
+                style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666; font-size: 14px;">
+                <p>For questions or technical support, please contact us at:</p>
+                <p><strong><a href="mailto:campus.competition@pk.edu.pl"
+                            style="color: #0078d4; text-decoration: none;">campus.competition@pk.edu.pl</a></strong></p>
+                <p></p><p>V0.3</p>
+            </div>
+
     </div>
 
     <script>
@@ -455,12 +583,10 @@
         // Obsługa pokazywania/ukrywania dodatkowych uczestników
         participantsCount.addEventListener('change', function () {
             const count = parseInt(this.value);
-            for (let i = 2; i <= 5; i++) {
+            for (let i = 2; i <= 10; i++) {
                 const participantDiv = document.getElementById(`participant${i}`);
                 if (participantDiv) {
                     participantDiv.style.display = count >= i ? 'block' : 'none';
-
-                    // Ustaw required dla pól w zależności od liczby uczestników
                     const nameInput = document.getElementById(`participantName${i}`);
                     const lastnameInput = document.getElementById(`participantLastname${i}`);
                     if (nameInput && lastnameInput) {
@@ -470,7 +596,40 @@
                 }
             }
         });
+        //Czyszczenie starych komunikatow
+        function clearMessages() {
+            const status = document.getElementById('statusMessages');
+            status.innerHTML = '';
+        }
+        // Pomocnicze funkcje
+        function showMessage(text, type = 'info') {
+            const status = document.getElementById('statusMessages');
+            const div = document.createElement('div');
+            div.className = `message ${type}`;
+            div.textContent = text;
+            status.insertBefore(div, status.firstChild);
+        }
+        function updateProgress(stage, percent) {
+            const progressContainer = document.querySelector('.progress-container');
+            progressContainer.style.display = 'block';
+            const progressBar = document.querySelector('.progress-bar');
+            const progressText = document.querySelector('.progress-text');
+            const progressPercentage = document.querySelector('.progress-percentage');
 
+            progressBar.style.width = percent + '%';
+            progressPercentage.textContent = Math.round(percent) + '%';
+            progressText.textContent = stage;
+        }
+
+        async function fileToBase64(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Główna funkcja obsługi formularza
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -478,62 +637,87 @@
             const progressContainer = document.querySelector('.progress-container');
             const status = document.getElementById('statusMessages');
 
-            function showMessage(text, type = 'info') {
-                const div = document.createElement('div');
-                div.className = `message ${type}`;
-                div.textContent = text;
-                status.insertBefore(div, status.firstChild);
-            }
-
-            function updateProgress(stage, percent) {
-                progressContainer.style.display = 'block';
-                const progressBar = document.querySelector('.progress-bar');
-                const progressText = document.querySelector('.progress-text');
-                const progressPercentage = document.querySelector('.progress-percentage');
-
-                progressBar.style.width = percent + '%';
-                progressPercentage.textContent = Math.round(percent) + '%';
-                progressText.textContent = stage;
-            }
-
             submitBtn.disabled = true;
             progressContainer.style.display = 'block';
 
             try {
-                // Sprawdzenie akceptacji regulaminu
                 if (!document.getElementById('regulationsAgreement').checked) {
-                    throw new Error('Musisz zaakceptować regulamin konkursu');
+                    throw new Error('You must accept the competition regulations');
                 }
 
-                // KROK 1: Wysłanie metadanych (bez plików)
-                const metadataPayload = {
+                // Weryfikacja plików
+                const applicationForm = document.getElementById('applicationForm').files[0];
+                const copyrightsAgreement = document.getElementById('copyrightsAgreement').files[0];
+                const board1File = document.getElementById('board1File').files[0];
+                const board2File = document.getElementById('board2File').files[0];
+                const projectDescFile = document.getElementById('projectDescFile').files[0];
+                const imagesFile = document.getElementById('imagesFile').files[0];
+
+                if (!applicationForm || !copyrightsAgreement || !board1File || !board2File || !projectDescFile || !imagesFile) {
+                    throw new Error('All files are required');
+                }
+
+                // Sprawdzenie rozmiaru plików
+                if (applicationForm.size > 4 * 1024 * 1024 || copyrightsAgreement.size > 4 * 1024 * 1024) {
+                    throw new Error('Application Form and Copyrights Agreement cannot exceed 4MB');
+                }
+                if (board1File.size > 25 * 1024 * 1024) {
+                    throw new Error('Board 1 cannot exceed 25MB');
+                }
+                if (board2File.size > 25 * 1024 * 1024) {
+                    throw new Error('Board 2 cannot exceed 25MB');
+                }
+                if (projectDescFile.size > 2 * 1024 * 1024) {
+                    throw new Error('Project Description cannot exceed 2MB');
+                }
+                if (imagesFile.size > 10 * 1024 * 1024) {
+                    throw new Error('Images file cannot exceed 10MB');
+                }
+
+                updateProgress('Preparing data...', 20);
+
+                // Przygotowanie plików
+                const [
+                    applicationFormContent,
+                    copyrightsAgreementContent,
+                    board1FileContent,
+                    board2FileContent,
+                    projectDescFileContent,
+                    imagesFileContent
+                ] = await Promise.all([
+                    fileToBase64(applicationForm),
+                    fileToBase64(copyrightsAgreement),
+                    fileToBase64(board1File),
+                    fileToBase64(board2File),
+                    fileToBase64(projectDescFile),
+                    fileToBase64(imagesFile)
+                ]);
+
+                const submissionCode = document.getElementById('submissionCode').value;
+
+                // Przygotowanie payloadu zgodnie ze schematem
+                const payload = {
                     step: 'metadata',
-                    submissionCode: document.getElementById('submissionCode').value,
-                    submissionId: document.getElementById('submissionCode').value,
+                    submissionId: submissionCode,
+                    submissionCode: submissionCode,
+                    submissionDate: new Date().toISOString(),
                     participantsCount: document.getElementById('participantsCount').value,
                     competitionCategory: document.getElementById('competitionCategory').value,
-
-                    // Dane uczestnika głównego
                     participantName1: document.getElementById('participantName1').value,
                     participantLastname1: document.getElementById('participantLastname1').value,
                     participantEmail1: document.getElementById('participantEmail1').value,
                     participantAddress1: document.getElementById('participantAddress1').value,
                     participantCity1: document.getElementById('participantCity1').value,
                     participantCountry1: document.getElementById('participantCountry1').value,
-
-                    // Dane uczelni
                     universityName: document.getElementById('universityName').value,
                     universityFaculty: document.getElementById('universityFaculty').value,
                     universityAddress: document.getElementById('universityAddress').value,
                     universityCity: document.getElementById('universityCity').value,
                     universityCountry: document.getElementById('universityCountry').value,
-
-                    // Dane opiekuna
                     supervisorName: document.getElementById('supervisorName').value,
                     supervisorLastname: document.getElementById('supervisorLastname').value,
                     supervisorEmail: document.getElementById('supervisorEmail').value,
-
-                    // Dodatkowi uczestnicy
+                    supervisorDegree: document.getElementById('supervisorDegree').value,
                     participantName2: document.getElementById('participantName2')?.value || '',
                     participantLastname2: document.getElementById('participantLastname2')?.value || '',
                     participantName3: document.getElementById('participantName3')?.value || '',
@@ -542,113 +726,77 @@
                     participantLastname4: document.getElementById('participantLastname4')?.value || '',
                     participantName5: document.getElementById('participantName5')?.value || '',
                     participantLastname5: document.getElementById('participantLastname5')?.value || '',
+                    participantName6: document.getElementById('participantName6')?.value || '',
+                    participantLastname6: document.getElementById('participantLastname6')?.value || '',
+                    participantName7: document.getElementById('participantName7')?.value || '',
+                    participantLastname7: document.getElementById('participantLastname7')?.value || '',
+                    participantName8: document.getElementById('participantName8')?.value || '',
+                    participantLastname8: document.getElementById('participantLastname8')?.value || '',
+                    participantName9: document.getElementById('participantName9')?.value || '',
+                    participantLastname9: document.getElementById('participantLastname9')?.value || '',
+                    participantName10: document.getElementById('participantName10')?.value || '',
+                    participantLastname10: document.getElementById('participantLastname10')?.value || '',
+                    regulationsAgreement: document.getElementById('regulationsAgreement').checked,
 
-                    // Zgoda na regulamin
-                    regulationsAgreement: document.getElementById('regulationsAgreement').checked
-                };
-
-                console.log('Wysyłane metadane:', metadataPayload);
-                updateProgress('Wysyłanie danych formularza...', 20);
-
-                const metadataResponse = await fetch('https://prod-64.westeurope.logic.azure.com:443/workflows/9a14d030eb3d4d288515cdc4972fcb84/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2t8wCxQX3AmI_6fkeeymgHKvGP5o-N538GpJnOu4Jfs', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(metadataPayload)
-                });
-
-                if (!metadataResponse.ok) {
-                    throw new Error(`Błąd wysyłania metadanych: ${metadataResponse.status}`);
-                }
-                showMessage('Dane podstawowe wysłane', 'success');
-
-                // KROK 2: Wysłanie dokumentów PDF
-                updateProgress('Wysyłanie dokumentów PDF...', 40);
-
-                const applicationForm = document.getElementById('applicationForm').files[0];
-                const copyrightsAgreement = document.getElementById('copyrightsAgreement').files[0];
-
-                if (!applicationForm || !copyrightsAgreement) {
-                    throw new Error('Brak wymaganych dokumentów PDF');
-                }
-
-                const pdfPayload = {
-                    step: 'documents',
-                    submissionCode: document.getElementById('submissionCode').value,
-                    submissionId: document.getElementById('submissionCode').value,
+                    // Dane plików
                     applicationFormName: applicationForm.name,
+                    applicationFormContent: applicationFormContent,
                     copyrightsAgreementName: copyrightsAgreement.name,
-                    applicationFormContent: await new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result.split(',')[1]);
-                        reader.readAsDataURL(applicationForm);
-                    }),
-                    copyrightsAgreementContent: await new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result.split(',')[1]);
-                        reader.readAsDataURL(copyrightsAgreement);
-                    })
-                };
-
-                console.log('Wysyłanie dokumentów PDF...');
-                const pdfResponse = await fetch('https://prod-64.westeurope.logic.azure.com:443/workflows/9a14d030eb3d4d288515cdc4972fcb84/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2t8wCxQX3AmI_6fkeeymgHKvGP5o-N538GpJnOu4Jfs', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(pdfPayload)
-                });
-
-                if (!pdfResponse.ok) {
-                    throw new Error(`Błąd wysyłania dokumentów PDF: ${pdfResponse.status}`);
-                }
-                showMessage('Dokumenty PDF wysłane', 'success');
-
-                // KROK 3: Wysłanie plików projektu
-                updateProgress('Wysyłanie plików projektu...', 70);
-
-                const boardsFile = document.getElementById('boardsFile').files[0];
-                const imagesFile = document.getElementById('imagesFile').files[0];
-
-                if (!boardsFile || !imagesFile) {
-                    throw new Error('Brak wymaganych plików projektu');
-                }
-
-                const projectPayload = {
-                    step: 'project',
-                    submissionCode: document.getElementById('submissionCode').value,
-                    submissionId: document.getElementById('submissionCode').value,
-                    boardsFileName: boardsFile.name,
+                    copyrightsAgreementContent: copyrightsAgreementContent,
+                    board1FileName: board1File.name,
+                    board1FileContent: board1FileContent,
+                    board2FileName: board2File.name,
+                    board2FileContent: board2FileContent,
+                    projectDescFileName: projectDescFile.name,
+                    projectDescFileContent: projectDescFileContent,
                     imagesFileName: imagesFile.name,
-                    boardsFileContent: await new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result.split(',')[1]);
-                        reader.readAsDataURL(boardsFile);
-                    }),
-                    imagesFileContent: await new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result.split(',')[1]);
-                        reader.readAsDataURL(imagesFile);
-                    })
+                    imagesFileContent: imagesFileContent
                 };
 
-                console.log('Wysyłanie plików projektu...');
-                const projectResponse = await fetch('https://prod-64.westeurope.logic.azure.com:443/workflows/9a14d030eb3d4d288515cdc4972fcb84/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2t8wCxQX3AmI_6fkeeymgHKvGP5o-N538GpJnOu4Jfs', {
+                // Dodajemy logowanie
+                console.log('Sending payload:', payload);
+                console.log('Payload size:', JSON.stringify(payload).length, 'bytes');
+
+                updateProgress('Sending data...', 50);
+
+                const response = await fetch('https://prod-21.northeurope.logic.azure.com:443/workflows/f8d08c0096694d8086015b40808a155e/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=n1ED1p75HXihmDviA0Wa2ekUeoXr3N1vTI9HOe-EcZs', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
-                    body: JSON.stringify(projectPayload)
+                    body: JSON.stringify(payload)
                 });
 
-                if (!projectResponse.ok) {
-                    throw new Error(`Błąd wysyłania plików projektu: ${projectResponse.status}`);
+                // Logowanie odpowiedzi
+                console.log('Response status:', response.status);
+                console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+                let responseData;
+                try {
+                    responseData = await response.text();
+                    console.log('Response content:', responseData);
+                } catch (err) {
+                    console.log('Failed to read response content:', err);
                 }
 
-                updateProgress('Zakończono', 100);
-                showMessage('Wszystkie pliki zostały wysłane pomyślnie!', 'success');
+                if (!response.ok) {
+                    throw new Error(`Data sending error: ${response.status} - ${responseData || ''}`);
+                }
+
+                updateProgress('Completed', 100);
+                showMessage('Submission sent successfully! Submission number: ' + submissionCode + '. Confirmation emails have been sent - please check your inbox and spam folder.', 'success');
+
+                // Reset formularza
                 form.reset();
+
+                // Ukryj dodatkowych uczestników
+                for (let i = 2; i <= 10; i++) {
+                    const participantDiv = document.getElementById(`participant${i}`);
+                    if (participantDiv) {
+                        participantDiv.style.display = 'none';
+                    }
+                }
 
                 setTimeout(() => {
                     progressContainer.style.display = 'none';
@@ -656,12 +804,57 @@
                 }, 3000);
 
             } catch (error) {
-                showMessage(`Błąd: ${error.message}`, 'error');
-                console.error('Błąd:', error);
+                console.error('Error details:', error);
+                showMessage(`Error: ${error.message}`, 'error');
+                updateProgress('An error occurred', 0);
             } finally {
                 submitBtn.disabled = false;
             }
         });
+        // Walidacja plików natychmiast po wyborze
+        function setupFileValidation() {
+            const fileInputs = [
+                { id: 'applicationForm', type: 'pdf', maxSize: 4 },
+                { id: 'copyrightsAgreement', type: 'pdf', maxSize: 4 },
+                { id: 'board1File', type: 'pdf', maxSize: 25 },
+                { id: 'board2File', type: 'pdf', maxSize: 25 },
+                { id: 'projectDescFile', type: 'pdf', maxSize: 2 },
+                { id: 'imagesFile', type: 'zip', maxSize: 10 }
+            ];
+
+            fileInputs.forEach(config => {
+                const input = document.getElementById(config.id);
+                if (input) {
+                    input.addEventListener('change', function (e) {
+                        const file = e.target.files[0];
+                        if (!file) return;
+
+                        // Sprawdź rozszerzenie
+                        const fileName = file.name.toLowerCase();
+                        const validExtensions = config.type === 'pdf' ? ['.pdf'] : ['.zip'];
+                        const isValidExtension = validExtensions.some(ext => fileName.endsWith(ext));
+
+                        if (!isValidExtension) {
+                            showMessage(`Invalid file format. Required: ${config.type.toUpperCase()}`, 'error');
+                            e.target.value = '';
+                            return;
+                        }
+
+                        // Sprawdź rozmiar
+                        const maxSizeBytes = config.maxSize * 1024 * 1024;
+                        if (file.size > maxSizeBytes) {
+                            showMessage(`File is too large. Maximum size: ${config.maxSize}MB`, 'error');
+                            e.target.value = '';
+                            return;
+                        }
+
+                    });
+                }
+            });
+        }
+
+        // Wywołaj funkcję po załadowaniu strony
+        setupFileValidation();
     </script>
 </body>
 
