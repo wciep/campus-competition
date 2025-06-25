@@ -470,7 +470,7 @@
                         Please upload the completed application form in PDF format
                     </div>
                     <div class="file-requirements">
-                        Maximum file size: 5MB
+                        Maximum file size: 4MB
                     </div>
                 </div>
 
@@ -483,7 +483,7 @@
                     </div>
                 </div>
                 <div class="file-requirements">
-                    Maximum file size: 5MB
+                    Maximum file size: 4MB
                 </div>
             </div>
 
@@ -516,7 +516,7 @@
                     <div class="file-requirements">
                         Upload project description file in PDF format<br>
                         File must be anonymized<br>
-                        Maximum file size: 5MB
+                        Maximum file size: 2MB
                     </div>
                 </div>
             </div>
@@ -533,7 +533,7 @@
                             <li>4 project images</li>
                             <li>Brief description</li>
                         </ul>
-                        Maximum file size: 20MB
+                        Maximum file size: 10MB
                     </div>
                 </div>
             </div>
@@ -657,8 +657,8 @@
                 }
 
                 // Sprawdzenie rozmiaru plików
-                if (applicationForm.size > 5 * 1024 * 1024 || copyrightsAgreement.size > 5 * 1024 * 1024) {
-                    throw new Error('PDF files cannot exceed 5MB');
+                if (applicationForm.size > 4 * 1024 * 1024 || copyrightsAgreement.size > 4 * 1024 * 1024) {
+                    throw new Error('Application Form and Copyrights Agreement cannot exceed 4MB');
                 }
                 if (board1File.size > 25 * 1024 * 1024) {
                     throw new Error('Board 1 cannot exceed 25MB');
@@ -666,11 +666,11 @@
                 if (board2File.size > 25 * 1024 * 1024) {
                     throw new Error('Board 2 cannot exceed 25MB');
                 }
-                if (projectDescFile.size > 5 * 1024 * 1024) {
-                    throw new Error('Project Description cannot exceed 5MB');
+                if (projectDescFile.size > 2 * 1024 * 1024) {
+                    throw new Error('Project Description cannot exceed 2MB');
                 }
-                if (imagesFile.size > 20 * 1024 * 1024) {
-                    throw new Error('Images file cannot exceed 20MB');
+                if (imagesFile.size > 10 * 1024 * 1024) {
+                    throw new Error('Images file cannot exceed 10MB');
                 }
 
                 updateProgress('Preparing data...', 20);
@@ -813,12 +813,12 @@
         // Walidacja plików natychmiast po wyborze
         function setupFileValidation() {
             const fileInputs = [
-                { id: 'applicationForm', type: 'pdf', maxSize: 5 },
-                { id: 'copyrightsAgreement', type: 'pdf', maxSize: 5 },
+                { id: 'applicationForm', type: 'pdf', maxSize: 4 },
+                { id: 'copyrightsAgreement', type: 'pdf', maxSize: 4 },
                 { id: 'board1File', type: 'pdf', maxSize: 25 },
                 { id: 'board2File', type: 'pdf', maxSize: 25 },
-                { id: 'projectDescFile', type: 'pdf', maxSize: 5 },
-                { id: 'imagesFile', type: 'zip', maxSize: 20 }
+                { id: 'projectDescFile', type: 'pdf', maxSize: 2 },
+                { id: 'imagesFile', type: 'zip', maxSize: 10 }
             ];
 
             fileInputs.forEach(config => {
